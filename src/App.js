@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import styled from "styled-components"
 
 // This example shows how to render two different screens
 // (or the same screen in a different context) at the same url,
@@ -59,37 +60,26 @@ class ModalSwitch extends Component {
   }
 }
 
+const Image = styled.div`
+  width:500px;
+  height: 500px;
+  background: no-repeat center/150% url(/img/${({index}) => index}.jpeg);
+`
+
 const IMAGES = [
-  { id: 0, title: "Dark Orchid", color: "DarkOrchid" },
-  { id: 1, title: "Lime Green", color: "LimeGreen" },
-  { id: 2, title: "Tomato", color: "Tomato" },
-  { id: 3, title: "Seven Ate Nine", color: "#789" },
-  { id: 4, title: "Crimson", color: "Crimson" }
+  { id: 1, title: "Burger with fries"},
+  { id: 2, title: "Burger with wedges"},
+  { id: 3, title: "Heart attack Burger"},
+  { id: 4, title: "Yummy Chicken"},
+  { id: 5, title: "Guac with Toast"},
+  { id: 6, title: "Spaghetti"},
+  { id: 7, title: "Steak"},
+  { id: 8, title: "Chicken and Rice"},
+  { id: 9, title: "Salad"},
+  { id: 10, title: "Salmon"},
+  { id: 11, title: "More Steak"},
+  { id: 12, title: "and even MORE STEAK!"}
 ];
-
-function Thumbnail({ color }) {
-  return (
-    <div
-      style={{
-        width: 50,
-        height: 50,
-        background: color
-      }}
-    />
-  );
-}
-
-function Image({ color }) {
-  return (
-    <div
-      style={{
-        width: "100%",
-        height: 400,
-        background: color
-      }}
-    />
-  );
-}
 
 function Home() {
   return (
@@ -120,7 +110,7 @@ function Gallery() {
             state: { modal: true }
           }}
         >
-          <Thumbnail color={i.color} />
+          <Image index={i.id} />
           <p>{i.title}</p>
         </Link>
       ))}
@@ -129,20 +119,20 @@ function Gallery() {
 }
 
 function ImageView({ match }) {
-  let image = IMAGES[parseInt(match.params.id, 10)];
+  let image = IMAGES[parseInt(match.params.id, 10) - 1];
 
   if (!image) return <div>Image not found</div>;
 
   return (
     <div>
       <h1>{image.title}</h1>
-      <Image color={image.color} />
+      <Image index={image.id} />
     </div>
   );
 }
 
 function Modal({ match, history }) {
-  let image = IMAGES[parseInt(match.params.id, 10)];
+  let image = IMAGES[parseInt(match.params.id, 10) - 1];
 
   if (!image) return null;
 
@@ -176,7 +166,7 @@ function Modal({ match, history }) {
         }}
       >
         <h1>{image.title}</h1>
-        <Image color={image.color} />
+        <Image index={image.id} />
         <button type="button" onClick={back}>
           Close
         </button>
