@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import styled from "styled-components"
+import styled, { css } from "styled-components";
 
 class ModalSwitch extends Component {
   previousLocation = this.props.location;
@@ -9,10 +9,7 @@ class ModalSwitch extends Component {
     let { location } = this.props;
 
     // set previousLocation if props.location is not modal
-    if (
-      nextProps.history.action !== "POP" &&
-      (!location.state || !location.state.modal)
-    ) {
+    if (nextProps.history.action !== "POP" && (!location.state || !location.state.modal)) {
       this.previousLocation = this.props.location;
     }
   }
@@ -20,11 +17,7 @@ class ModalSwitch extends Component {
   render() {
     let { location } = this.props;
 
-    let isModal = !!(
-      location.state &&
-      location.state.modal &&
-      this.previousLocation !== location
-    ); // not initial render
+    let isModal = !!(location.state && location.state.modal && this.previousLocation !== location); // not initial render
 
     return (
       <div>
@@ -42,22 +35,30 @@ class ModalSwitch extends Component {
 const Image = styled.div`
   width: 305px;
   height: 305px;
-  background: no-repeat center/150% url(/img/${({index}) => index}.jpeg);
-`
+  background: no-repeat center/150% url(/img/${({ index }) => index}.jpeg);
+  ${({ inModal }) =>
+    !inModal &&
+    css`
+      :hover {
+        opacity: 0.7;
+      }
+    `}
+    
+`;
 
 const IMAGES = [
-  { id: 1, title: "Burger with fries"},
-  { id: 2, title: "Burger with wedges"},
-  { id: 3, title: "Heart attack Burger"},
-  { id: 4, title: "Yummy Chicken"},
-  { id: 5, title: "Guac with Toast"},
-  { id: 6, title: "Spaghetti"},
-  { id: 7, title: "Steak"},
-  { id: 8, title: "Chicken and Rice"},
-  { id: 9, title: "Salad"},
-  { id: 10, title: "Salmon"},
-  { id: 11, title: "More Steak"},
-  { id: 12, title: "and even MORE STEAK!"}
+  { id: 1, title: "Burger with fries" },
+  { id: 2, title: "Burger with wedges" },
+  { id: 3, title: "Heart attack Burger" },
+  { id: 4, title: "Yummy Chicken" },
+  { id: 5, title: "Guac with Toast" },
+  { id: 6, title: "Spaghetti" },
+  { id: 7, title: "Steak" },
+  { id: 8, title: "Chicken and Rice" },
+  { id: 9, title: "Salad" },
+  { id: 10, title: "Salmon" },
+  { id: 11, title: "More Steak" },
+  { id: 12, title: "and even MORE STEAK!" },
 ];
 
 function Home() {
@@ -80,22 +81,22 @@ function Home() {
 const PhotoGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 305px);
-  gap: 2em;
+  gap: 1em;
   width: 950px;
   margin: auto;
   margin-top: 80px;
-`
+`;
 
 function Gallery() {
   return (
     <PhotoGrid>
-      {IMAGES.map(i => (
+      {IMAGES.map((i) => (
         <Link
           key={i.id}
           to={{
             pathname: `/img/${i.id}`,
             // this is the trick!
-            state: { modal: true }
+            state: { modal: true },
           }}
         >
           <Image index={i.id} />
@@ -123,7 +124,7 @@ function Modal({ match, history }) {
 
   if (!image) return null;
 
-  let back = e => {
+  let back = (e) => {
     e.stopPropagation();
     history.goBack();
   };
@@ -137,7 +138,7 @@ function Modal({ match, history }) {
         left: 0,
         bottom: 0,
         right: 0,
-        background: "rgba(0, 0, 0, 0.15)"
+        background: "rgba(0, 0, 0, 0.15)",
       }}
     >
       <div
@@ -149,11 +150,11 @@ function Modal({ match, history }) {
           left: "10%",
           right: "10%",
           padding: 15,
-          border: "2px solid #444"
+          border: "2px solid #444",
         }}
       >
         <h1>{image.title}</h1>
-        <Image index={image.id} />
+        <Image inModal index={image.id} />
         <button type="button" onClick={back}>
           Close
         </button>
