@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import styled, { css } from "styled-components";
+import { GlobalStyle } from "./components/globalStyle";
+import UserGrid from "./components/Profile/UserGrid";
 
 class ModalSwitch extends Component {
   previousLocation = this.props.location;
@@ -21,6 +23,7 @@ class ModalSwitch extends Component {
 
     return (
       <div>
+        <GlobalStyle />
         <Switch location={isModal ? this.previousLocation : location}>
           <Route exact path="/" component={Home} />
           <Route path="/gallery" component={Gallery} />
@@ -43,7 +46,6 @@ const Image = styled.div`
         opacity: 0.7;
       }
     `}
-    
 `;
 
 const IMAGES = [
@@ -81,28 +83,31 @@ function Home() {
 const PhotoGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 305px);
-  gap: 1em;
-  width: 950px;
-  margin: auto;
-  margin-top: 80px;
+  justify-content: center;
+  gap: 2rem;
+  /* margin: auto;
+  margin-top: 80px; */
 `;
 
 function Gallery() {
   return (
-    <PhotoGrid>
-      {IMAGES.map((i) => (
-        <Link
-          key={i.id}
-          to={{
-            pathname: `/img/${i.id}`,
-            // this is the trick!
-            state: { modal: true },
-          }}
-        >
-          <Image index={i.id} />
-        </Link>
-      ))}
-    </PhotoGrid>
+    <div>
+      <UserGrid />
+      <PhotoGrid>
+        {IMAGES.map((i) => (
+          <Link
+            key={i.id}
+            to={{
+              pathname: `/img/${i.id}`,
+              // this is the trick!
+              state: { modal: true },
+            }}
+          >
+            <Image index={i.id} />
+          </Link>
+        ))}
+      </PhotoGrid>
+    </div>
   );
 }
 
