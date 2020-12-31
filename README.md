@@ -1,6 +1,6 @@
-# Grid Gallery
+# gFg | goodie Foodie galleries
 
-Image Gallery practicing CSS GRID with React, React Router and styled-components
+Image Gallery of some amazing food using CSS GRID with React, React Router and styled-components
 
 ---
 
