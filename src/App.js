@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { GlobalStyle } from "./components/globalStyle";
-import UserGrid from "./components/Profile/UserGrid";
 import { Modal } from "./components/Modal/Modal";
 import { Posts } from "./components/Posts";
+import { Gallery } from "./components/Gallery/Gallery";
 
 class ModalSwitch extends Component {
   previousLocation = this.props.location;
@@ -63,37 +63,6 @@ function Home() {
           <Link to="/img/4">Crimson</Link>
         </li>
       </ul>
-    </div>
-  );
-}
-
-const PhotoGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 305px);
-  justify-content: center;
-  gap: 2rem;
-  /* margin: auto;
-  margin-top: 80px; */
-`;
-
-function Gallery() {
-  return (
-    <div>
-      <UserGrid />
-      <PhotoGrid>
-        {Posts.map((i) => (
-          <Link
-            key={i.id}
-            to={{
-              pathname: `/img/${i.id}`,
-              // this is the trick!
-              state: { modal: true },
-            }}
-          >
-            <Image index={i.id} />
-          </Link>
-        ))}
-      </PhotoGrid>
     </div>
   );
 }
