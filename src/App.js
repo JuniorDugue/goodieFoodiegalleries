@@ -50,20 +50,24 @@ export const Image = styled.div`
     `}
 `;
 
+const HomeContainer = styled.div`
+  font-size: 2rem;
+`;
+
 function Home() {
   return (
-    <div>
-      <Link to="/gallery">Visit the Gallery</Link>
+    <HomeContainer>
+      <Link to="/gallery">Check out the Gallery</Link>
       <h2>Featured Images</h2>
       <ul>
         <li>
-          <Link to="/img/2">Tomato</Link>
+          <Link to="/img/2">Burger with wedges</Link>
         </li>
         <li>
-          <Link to="/img/4">Crimson</Link>
+          <Link to="/img/4">Yummy Chicken</Link>
         </li>
       </ul>
-    </div>
+    </HomeContainer>
   );
 }
 
