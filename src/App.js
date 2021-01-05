@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import styled, { css } from "styled-components";
-import { GlobalStyle } from "./components/globalStyle";
+import styled, { css, ThemeProvider } from "styled-components";
+import { GlobalStyle, lightTheme, darkTheme } from "./components/globalStyle";
 import { Modal } from "./components/Modal/Modal";
 import { Posts } from "./components/Posts";
 import { Gallery } from "./components/Gallery/Gallery";
@@ -54,20 +54,29 @@ export const Image = styled.div`
     `}
 `;
 
-function Home() {
+function Home(props) {
+  const [theme, setTheme] = useState("light");
+
+  const themeToggler = () => {
+    theme === "light" ? setTheme("dark") : setTheme("light");
+  };
+
   return (
-    <HomeContainer>
-      <Link to="/gallery">Check out the Gallery</Link>
-      <h2>Featured Images</h2>
-      <ul>
-        <li>
-          <Link to="/img/2">Burger with wedges</Link>
-        </li>
-        <li>
-          <Link to="/img/4">Yummy Chicken</Link>
-        </li>
-      </ul>
-    </HomeContainer>
+    <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+      <HomeContainer>
+        <button onClick={() => themeToggler()}>switch themes</button>
+        <Link to="/gallery">Check out the Gallery</Link>
+        <h2>Featured Images</h2>
+        <ul>
+          <li>
+            <Link to="/img/2">Burger with wedges</Link>
+          </li>
+          <li>
+            <Link to="/img/4">Yummy Chicken</Link>
+          </li>
+        </ul>
+      </HomeContainer>
+    </ThemeProvider>
   );
 }
 
