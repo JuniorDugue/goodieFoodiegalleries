@@ -37,6 +37,10 @@ class ModalSwitch extends Component {
   }
 }
 
+const HomeContainer = styled.div`
+  font-size: 2rem;
+`;
+
 export const Image = styled.div`
   width: 305px;
   height: 305px;
@@ -48,10 +52,6 @@ export const Image = styled.div`
         opacity: 0.7;
       }
     `}
-`;
-
-const HomeContainer = styled.div`
-  font-size: 2rem;
 `;
 
 function Home() {

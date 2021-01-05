@@ -1,51 +1,79 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import UserGrid from "../Profile/UserGrid";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Posts } from "../Posts";
-import { Image } from "../../App";
 
 const PhotoGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 305px);
   justify-content: center;
   gap: 2rem;
-  /* margin: auto;
-  margin-top: 80px; */
+  grid-auto-rows: 305px;
+  ${({ cascade }) =>
+    cascade &&
+    css`
+      grid-auto-rows: 200px;
+      grid-gap: 5px;
+    `}
 `;
 
 const LinkGrid = styled.div`
   display: grid;
   grid-template-columns: auto auto;
   justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
 `;
 
-const TabLink = styled.div`
+const TabLink = styled(NavLink)`
   text-decoration: none;
-  color: #000;
-  width: 50px;
+  color: #ccc;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  ${({ selected }) => selected && "color: black;"}
 `;
 
-export function Gallery() {
+const ImageLink = styled(Link)`
+  background: no-repeat center/150% url(/img/${({ index }) => index}.jpeg);
+  :hover {
+    opacity: 0.7;
+  }
+  ${({ cascade }) =>
+    cascade &&
+    css`
+      background-size: cover;
+
+      &:nth-of-type(2n) {
+        grid-row-start: span 2;
+      }
+    `}
+`;
+
+export function Gallery({ match, location }) {
+  const cascade = location.search === "?type=cascade";
   return (
     <div>
       <UserGrid />
       <LinkGrid>
-        <TabLink>square placeholder</TabLink>
-        <TabLink>cascade placeholder</TabLink>
+        <TabLink selected={!cascade} to={`${match.url}`}>
+          square
+        </TabLink>
+        <TabLink selected={cascade} to={{ pathname: `${match.url}`, search: "?type=cascade" }}>
+          cascade
+        </TabLink>
       </LinkGrid>
-      <PhotoGrid>
+      <PhotoGrid cascade={cascade}>
         {Posts.map((i) => (
-          <Link
+          <ImageLink
+            cascade={cascade}
             key={i.id}
+            index={i.id}
             to={{
               pathname: `/img/${i.id}`,
-              // this is the trick!
               state: { modal: true },
             }}
-          >
-            <Image index={i.id} />
-          </Link>
+          ></ImageLink>
         ))}
       </PhotoGrid>
     </div>
