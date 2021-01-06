@@ -2,6 +2,9 @@
 
 Image Gallery of some amazing food using CSS GRID with React, React Router and styled-components
 
+- demo on multiple browser screens
+![demo of site on different browser screens](/img/demo.gif)
+
 ---
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
