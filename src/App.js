@@ -44,6 +44,9 @@ const HomeContainer = styled.div`
 export const Image = styled.div`
   width: 305px;
   height: 305px;
+  @media (max-width: 990px){
+    width: 100%;
+  }
   background: no-repeat center/150% url(/img/${({ index }) => index}.jpeg);
   ${({ inModal }) =>
     !inModal &&

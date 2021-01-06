@@ -16,6 +16,12 @@ const PhotoGrid = styled.div`
       grid-auto-rows: 200px;
       grid-gap: 5px;
     `}
+
+  @media (max-width: 990px) {
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: calc(33vw - 15px);
+    gap: 5px;
+  }
 `;
 
 const LinkGrid = styled.div`

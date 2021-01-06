@@ -20,6 +20,13 @@ const ModalStyle = styled.div`
   right: 25%;
   width: 600px;
   border: 2px solid #444;
+
+  @media (max-width: 990px){
+    left: 0;
+    right: 0;
+    width: auto;
+    top: ${({ top }) => top}px;
+  }
 `;
 
 export function Modal({ match, history }) {
