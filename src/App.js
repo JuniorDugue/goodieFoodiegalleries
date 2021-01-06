@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import styled, { css, ThemeProvider } from "styled-components";
 import { GlobalStyle, lightTheme, darkTheme } from "./components/globalStyle";
 import { Modal } from "./components/Modal/Modal";
-import { Posts } from "./components/Posts";
 import { Gallery } from "./components/Gallery/Gallery";
 
 class ModalSwitch extends Component {
@@ -29,7 +28,7 @@ class ModalSwitch extends Component {
         <Switch location={isModal ? this.previousLocation : location}>
           <Route exact path="/" component={Home} />
           <Route path="/gallery" component={Gallery} />
-          <Route path="/img/:id" component={ImageView} />
+          <Route path="/img/:id" component={Modal} />
         </Switch>
         {isModal ? <Route path="/img/:id" component={Modal} /> : null}
       </div>
@@ -80,19 +79,6 @@ function Home(props) {
         </ul>
       </HomeContainer>
     </ThemeProvider>
-  );
-}
-
-function ImageView({ match }) {
-  let image = Posts[parseInt(match.params.id, 10) - 1];
-
-  if (!image) return <div>Image not found</div>;
-
-  return (
-    <div>
-      <h1>{image.title}</h1>
-      <Image index={image.id} />
-    </div>
   );
 }
 
