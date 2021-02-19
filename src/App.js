@@ -1,7 +1,8 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import styled, { css, ThemeProvider } from "styled-components";
-import { GlobalStyle, lightTheme, darkTheme } from "./components/globalStyle";
+import { GlobalStyle } from "./components/globalStyle";
+import storage from "local-storage-fallback";
 import { Modal } from "./components/Modal/Modal";
 import { Gallery } from "./components/Gallery/Gallery";
 
@@ -43,7 +44,7 @@ const HomeContainer = styled.div`
 export const Image = styled.div`
   width: 305px;
   height: 305px;
-  @media (max-width: 990px){
+  @media (max-width: 990px) {
     width: 100%;
   }
   background: no-repeat center/150% url(/img/${({ index }) => index}.jpeg);
@@ -56,17 +57,26 @@ export const Image = styled.div`
     `}
 `;
 
-function Home(props) {
-  const [theme, setTheme] = useState("light");
+function getInitialTheme() {
+  const savedTheme = storage.getItem("theme");
+  return savedTheme ? JSON.parse(savedTheme) : { mode: "light" };
+}
 
-  const themeToggler = () => {
-    theme === "light" ? setTheme("dark") : setTheme("light");
-  };
+function Home() {
+  const [theme, setTheme] = useState(getInitialTheme);
+
+  useEffect(() => {
+    storage.setItem("theme", JSON.stringify(theme));
+  }, [theme]);
 
   return (
-    <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+    <ThemeProvider theme={theme}>
       <HomeContainer>
-        <button onClick={() => themeToggler()}>switch themes</button>
+        <button onClick={(e) =>
+            setTheme(
+              theme.mode === "dark" ? { mode: "light" } : { mode: "dark" }
+            )
+          }>switch themes</button>
         <Link to="/gallery">Check out the Gallery</Link>
         <h2>Featured Images</h2>
         <ul>
